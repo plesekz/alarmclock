@@ -1,0 +1,15 @@
+Author:	Zdenek Plesek
+Created as CA3 for ecm1400 @ University of Exeter 2020
+License: GNU GPL
+Files in this distribution
+	main.py
+	setup.py
+	test_main.py
+	readme.txt
+	metadata.txt
+	license.txt
+	alarmclock.pdf
+Version: 1.0.0
+Date: 02/12/2020
+Available online on:
+	https://github.com/plesekz/alarmclock

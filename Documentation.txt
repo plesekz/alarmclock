@@ -1,0 +1,84 @@
+The program is quite simple in its function.
+It creates a Flask server on the internal host which responds with the template with notifications and alarms appeneded.
+
+The global events_list holds all upcoming events including alarms and routines (except for the newday routine) while notification_list holds all notifications.
+
+Event structure:
+	'title': str
+		the event's title, displayed as a headline in the interface
+		The add_event() function adds a number to the title according to its order
+		in the event line.
+		This number is there so that events of identical name are distinguished in the
+		queue in case user wants to cancel them.
+		This number is added and managed automatically by functions managing the
+		event list.
+	'time': dict
+		'year': str
+			year the event is scheduled for in YYYY format
+		'month': str
+			month the event is scheduled for in MM format
+		'day': str
+			day the event is scheduled for in DD format
+		'hour': str
+			hour the event is scheduled for in HH format
+		'minute': str
+			minute the event is scheduled for in MM format
+		'second': str
+			second the event is scheduled for in SS format
+	'news': str
+		None or anything else.
+		If news is none, the event will not fire the news to display.
+		If news is anything else, the event will display news notification once fired.
+	'weather': str
+		None or anything else.
+		If weather is none, the event will not fire the weather to display.
+		If weather is anything else, the event will display weather notification once
+		fired.
+	'covid': str
+		None or anything else.
+		If covid is none, the event will not fire the covid to display.
+		If covid is anything else, the event will display covid notification once fired.
+	'content': str
+		Description of the event.
+		When auto-generatted by set_up_new_event() it has
+		"DD-MM-YYYY HH:MM" according to when it is scheduled for.
+		It also contains ' + news' if it causes news notification.
+		It also contains ' + weather' if it causes weather notification.
+		It also contains ' + covid' if it causes covid notification.
+Program lifecycle
+	Imports
+	Constant is established.
+		config file's name
+	Configure logging
+		filename: [date].log
+		logging level: only info
+	Global definitions
+		from the config.txt file
+	Functions are initiated
+	The body of the program starts executing
+		first_day() function is run
+	Flask is ran.
+
+first_day()
+	new day routine is scheduled for the next day
+	set_up_routines() is called
+
+new_day()
+	schedules new day routine for the next day
+	set_up_routines() is called
+
+set_up_routines()
+	goes through all of the routines
+	and schedules and every single one of them
+
+Event lifecycle
+	The event dictionary is created and returned by set_up_new_event() function.
+	Then event should be added to the queue by the add_event() function.
+		(add event automatically adds a word ('New') before the title of the event.
+		and 'relt' property.)
+		(the function automatically calls the save_events() function to save
+		the current state of the event_list to the file.)
+	Finally, if the event is meant to happen on the day, it is scheduled with
+	schedule_an_event.
+	If the event is scheduled for a time in the past, it will fire away immediately.
+	
